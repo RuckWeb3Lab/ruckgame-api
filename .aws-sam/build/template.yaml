@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: ruckgame-api
+Transform:
+- AWS::Serverless-2016-10-31
+Resources:
+  getByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/get-by-id.getByIdHandler
+      Runtime: nodejs16.x
+      Architectures:
+      - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get one item by
+        id from a DynamoDB table.
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{id}
+            Method: GET
+      CodeUri: getByIdFunction
+    Metadata:
+      SamResourceId: getByIdFunction
+Outputs:
+  WebEndpoint:
+    Description: API Gateway endpoint URL for Prod stage
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
